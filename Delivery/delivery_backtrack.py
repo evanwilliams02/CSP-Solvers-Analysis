@@ -171,7 +171,6 @@ def fill_random_variables(graph, packages):
 # Takes graph and packages and fills them with randomvariables
 # Some values are preset to facilitate shortcuts that will take
 # a longe time to go from one end of map to the other
-# packages have presets to faciliate a 
 fill_random_variables(graph, packages)
 
 
