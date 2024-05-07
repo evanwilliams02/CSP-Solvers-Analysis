@@ -108,7 +108,7 @@ def backtrack(current_location, remaining_packages, current_route, frontier):
                 if count == len(neighbors_copy):
                     print(" ### Couldn't get to", packages[remaining_packages[package_to_deliver]]['location'], 'from', current_location, '### ')
                     current_location = next_location
-                    current_route.append(next_location)
+                    current_route.append(next_location + '*')
                     current_time += distance
                     
                     print()
@@ -166,8 +166,9 @@ if backtrack('start', list(packages.keys()), ['start'], frontier):
     print()
     print()
     print('Found Solution !')
+    print()
     print('Shortest Route:', shortest_route)
-    print('Total Delivery Time:', shortest_time)
+    print('Total Delivery Time:', round(int(shortest_time) / 60, 2), 'hour(s)')
 else:
     print('END')
 print()
