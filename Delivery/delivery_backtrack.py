@@ -1,5 +1,10 @@
 import random
 
+# Initialize variables
+shortest_route = []
+shortest_time = 0
+frontier = ['start']
+
 # Don't mind the 1s here, they are later replaced with random numbers
 graph = {
     'start':   {'david':1,'frank':1,'charlie':1,'bob':26,'issac': 1},
@@ -12,21 +17,29 @@ graph = {
     'grace':   {'issac': 1,'alice':1,'charlie':1, 'david':1},
     'bob':     {'david':1,'alice':50,'eve': 1}
 } 
+# An alternate version of graph, works, but less effecient 
+# in finding a solution
+# graph = {
+#     'start':   {'david':1,'frank':1,'charlie':1,'bob':26,'issac': 1},
+#     'eve':     {'start': 1,'charlie':24,'bob':1},
+#     'david':   {'start': 1,'issac': 1,'bob':1},
+#     'issac':   {'start': 1,'eve': 33,'grace':1,'charlie':1,'david':1},
+#     'alice':   {'frank':1,'charlie':1,'grace':1},
+#     'frank':   {'start': 1,'eve': 1,'alice':1},
+#     'charlie': {'start': 1,'issac': 1,'alice':1,'frank':1,'grace':1},
+#     'grace':   {'issac': 1,'alice':1,'charlie':1, 'david':25},
+#     'bob':     {'david':1,'alice':50,'eve': 1}
+# } 
 packages = {
-    'P4': {'location': 'alice', 'delivery_time': 210},
-    'P8': {'location': 'bob', 'delivery_time': 70},
+    'P4': {'location': 'alice', 'delivery_time': 1},
+    'P8': {'location': 'bob', 'delivery_time': 1},
     'P2': {'location': 'david', 'delivery_time':1},
-    'P7': {'location': 'grace', 'delivery_time': 120},
+    'P7': {'location': 'grace', 'delivery_time': 1},
     'P5': {'location': 'frank', 'delivery_time': 1},
     'P1': {'location': 'eve', 'delivery_time': 1},
     'P3': {'location': 'issac', 'delivery_time': 1},
     'P6': {'location': 'charlie', 'delivery_time': 1}
 }
-
-# Initialize variables
-shortest_route = []
-shortest_time = 0
-frontier = ['start']
 
 def backtrack(current_location, remaining_packages, current_route, frontier):
     global shortest_time, shortest_route
@@ -140,7 +153,6 @@ def backtrack(current_location, remaining_packages, current_route, frontier):
     
     return True
 
-
 def fill_random_variables(graph, packages):
 
     # Fills the distance between locations
@@ -156,10 +168,11 @@ def fill_random_variables(graph, packages):
             packages[d]['delivery_time'] = random.randint(30, 55)
 
 
-
-
+# Takes graph and packages and fills them with randomvariables
+# Some values are preset to facilitate shortcuts that will take
+# a longe time to go from one end of map to the other
+# packages have presets to faciliate a 
 fill_random_variables(graph, packages)
-
 
 
 if backtrack('start', list(packages.keys()), ['start'], frontier):
