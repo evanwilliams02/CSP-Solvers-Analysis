@@ -1,23 +1,22 @@
 import random
-random.seed(10)
 
 # Don't mind the 1s here, they are later replaced with random numbers
 graph = {
-    'start': {'david': 1, 'eve': 1, 'bob':1, 'alice': 1,'issac': 1},
-    'eve': {'start': 1, 'alice':1, 'david':1},
-    'david': {'start': 1, 'issac': 1, 'bob':1,'alice': 1,'eve': 1,},
-    'issac': {'alice': 1, 'charlie':1, 'bob':1},
-    'alice': {'issac':1, 'frank':1, 'eve':1},
-    'frank': {'alice':1, 'eve':1, 'grace':1, 'charlie':1},
-    'charlie': {'frank':1, 'grace':1, 'alice':1},
-    'grace': {'charlie':1, 'bob':1, 'issac':1},
-    'bob': {'grace':1, 'david':1, 'start': 1,}
-}
+    'start':   {'david':1,'frank':1,'charlie':1,'bob':26,'issac': 1},
+    'eve':     {'start': 1,'charlie':24,'bob':1},
+    'david':   {'start': 1,'issac': 1,'bob':1},
+    'issac':   {'start': 1,'eve': 33,'grace':1,'charlie':1,'david':1},
+    'alice':   {'frank':1,'charlie':1,'grace':1},
+    'frank':   {'start': 1,'eve': 1,'alice':1},
+    'charlie': {'start': 1,'issac': 31,'alice':1,'frank':1,'grace':1},
+    'grace':   {'issac': 1,'alice':1,'charlie':1, 'david':1},
+    'bob':     {'david':1,'alice':50,'eve': 1}
+} 
 packages = {
-    'P4': {'location': 'alice', 'delivery_time': 1},
-    'P8': {'location': 'bob', 'delivery_time': 1},
+    'P4': {'location': 'alice', 'delivery_time': 210},
+    'P8': {'location': 'bob', 'delivery_time': 70},
     'P2': {'location': 'david', 'delivery_time':1},
-    'P7': {'location': 'grace', 'delivery_time': 1},
+    'P7': {'location': 'grace', 'delivery_time': 120},
     'P5': {'location': 'frank', 'delivery_time': 1},
     'P1': {'location': 'eve', 'delivery_time': 1},
     'P3': {'location': 'issac', 'delivery_time': 1},
@@ -26,78 +25,149 @@ packages = {
 
 # Initialize variables
 shortest_route = []
-shortest_time = float('inf')
+shortest_time = 0
 frontier = ['start']
 
-def backtrack(current_location, remaining_packages, current_route, current_time, frontier):
+def backtrack(current_location, remaining_packages, current_route, frontier):
     global shortest_time, shortest_route
     
-    # Base case: all packages delivered
-    if not remaining_packages:
-        if current_time < shortest_time:
-            shortest_time = current_time
-            shortest_route = current_route
-        return
+    current_time = 1
+    count = 0
+    test_count = 0
+
     
+    while remaining_packages and current_time > shortest_time:
+        
+        print(' **** New while loop iteration **** ')
 
-    for next_location in graph[current_location]:
-        distance = graph[current_location][next_location]
-        new_time = current_time + distance
-        # print('next location:  ',next_location)
-        # print('remaining_packages:  ',remaining_packages)
-        # print('current_location:  ',current_location)
-        # print('current_time:  ',current_time)
-        # print('distance:  ',distance)
-        # print('current_route:  ',current_route)
-        # print('AHHHHHHHHHHHHH:  ', frontier)
-        
-        
-        # Check if delivery time for next package can be met
-        for next_package in remaining_packages:
+        neighbors_copy = graph[current_location].copy()
+
+        for next_location in neighbors_copy:
+
+            try:
+                distance = neighbors_copy[next_location]
+            except KeyError:
+                continue
             
-            # print('next_package:  ',next_package)
-            # print('new_time:  ',new_time)
-            # print('next_package delivery time:  ',packages[next_package]['delivery_time'])
-            # print()
-            # print()
-            # print()
-            # print()
-            # # print('boolean check to see if the time it would take to get to next')
-            # # print('package is shorter than the time i have to delivery the next package:  ')
-            # # print(new_time <= packages[next_package]['delivery_time'])
-            # print()
-            # print()
+            time_so_far = current_time + distance
+            
 
-            #  and packages[next_package]['location'] == current_location
-        
-            if new_time <= packages[next_package]['delivery_time'] and next_location not in frontier and packages[next_package]['location'] == next_location:
+            temp = []
+            for i in remaining_packages:
+                temp.append(packages[i]['location'])
+
+            
+            print()
+            print('time_so_far:        ',time_so_far)
+            print('current_location:   ',current_location)
+            print('next location:      ',next_location)
+            print('remaining_packages: ',temp)
+            print('current_time:       ',current_time)
+            print('distance:           ',distance)
+            print('current_route:      ',current_route)
+            print('frontier:           ', frontier)
+            
+            
+            # Check if delivery time for next package can be met
+            for package_to_deliver in range(0, len(remaining_packages)):
+                print()
+                print('    next_package:                 ',remaining_packages[package_to_deliver])
+                print('    next_package location:        ',packages[remaining_packages[package_to_deliver]]['location'])
+                print('    next_package delivery time:   ',packages[remaining_packages[package_to_deliver]]['delivery_time'])
+                print('    driver can meet:              ', next_location, time_so_far <= packages[remaining_packages[package_to_deliver]]['delivery_time']+ current_time)
+                print('    customer not in frontier      ',next_location not in frontier)
+                print('    on customer:                  ', next_location, packages[remaining_packages[package_to_deliver]]['location'] == next_location)
+
+                package_belongs = False
+
+                if time_so_far <= packages[remaining_packages[package_to_deliver]]['delivery_time'] + current_time and next_location not in frontier and packages[remaining_packages[package_to_deliver]]['location'] == next_location:
+                    
+                    package_belongs = True
+                    current_location = packages[remaining_packages[package_to_deliver]]['location']
+                    current_route.append(next_location)
+                    frontier.append(next_location)
+                    current_time += distance
+                    remaining_packages.remove(remaining_packages[package_to_deliver])
+                    print()
+                    print('        Things after Inserted into route:')
+                    print('            current_location: ',current_location)
+                    print('            current_route:    ',current_route)
+                    print('            frontier:         ',frontier)
+                    print('            current_time:     ',current_time)
+                    break
+            print()
+            print('        package_to_deliver + 1   ', package_to_deliver+1)
+            print('        package_belongs          ', package_belongs)
+            print('        len(remaining_packages)  ', len(remaining_packages))
+            print('        full statement bool      ', not package_belongs and (package_to_deliver+1) == len(remaining_packages))
+            print()
+
+            if not package_belongs and (package_to_deliver + 1) == len(remaining_packages):
+                count += 1
                 
-                remaining = remaining_packages.copy()
-                remaining.remove(next_package)
-                backtrack(next_location, remaining, current_route + [next_location], new_time, frontier + [next_location])
+                if count == len(neighbors_copy):
+                    print(" ### Couldn't get to", packages[remaining_packages[package_to_deliver]]['location'], 'from', current_location, '### ')
+                    current_location = next_location
+                    current_route.append(next_location)
+                    current_time += distance
+                    
+                    print()
+                    print('Now going to next customer, but not deliverying... ')
+                    print('Destination: ', next_location)
+                
+                continue
+            else:
+                break
+        
+        count = 0
+
+        broken = False
+        if len(current_route) == 30:
+            print()
+            broken = True
+            print('**** SEARCHED FAILED ****')
+            break
+   
+        
+        test_count += 1
+        
+           
+    shortest_time = current_time - 1
+    shortest_route = current_route
+
+    if broken:
+        return False
+    
+    return True
+
 
 def fill_random_variables(graph, packages):
 
     # Fills the distance between locations
     for i in graph:
         for j in graph[i]:
-            graph[i][j] = random.randint(3, 25)
+            if graph[i][j] == 1:
+                graph[i][j] = random.randint(25, 50)
             
         
     # Fills the delivery times of packages
     for d in packages:
-        packages[d]['delivery_time'] = random.randint(80, 720)
+        if packages[d]['delivery_time'] == 1:
+            packages[d]['delivery_time'] = random.randint(30, 55)
+
+
+
 
 fill_random_variables(graph, packages)
 
-while not shortest_route:
 
-    # Start backtracking from the starting location
-    backtrack('start', list(packages.keys()), ['start'], 0, frontier)
-    print('still searching..')
 
-# Output the shortest route and delivery time
+if backtrack('start', list(packages.keys()), ['start'], frontier):
+    print()
+    print()
+    print('Found Solution !')
+    print('Shortest Route:', shortest_route)
+    print('Total Delivery Time:', shortest_time)
+else:
+    print('END')
 print()
-print('Found Solution !')
-print('Shortest Route:', shortest_route)
-print('Total Delivery Time:', shortest_time)
