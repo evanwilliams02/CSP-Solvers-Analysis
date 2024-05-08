@@ -1,4 +1,4 @@
-import random, time
+import random, time, sys
 
 def fill_random_variables(graph, packages):
 
@@ -165,7 +165,13 @@ def local_search(graph, current_solution, neighbors):
         
         iterations += 1
 
-    mini = min(fitni.keys())
+    try:
+        mini = min(fitni.keys())
+    except ValueError:
+        print('FOUND VALID NEIGHBORS')
+        print('RUN PROGRAM AGAIN')
+        sys.exit()
+
     best_neighbor = fitni[mini]
     best_fitness = mini
 
@@ -209,7 +215,7 @@ if orig_time > best_fitness:
     print()
 else:
     print()
-    print('Solution did not improve :(')
+    print('Solution did not improve :(, try increasing search size variables (max_iterations or generator_num)')
     print()
 
 elapsed_time = end_time - start_time
