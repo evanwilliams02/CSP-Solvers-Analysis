@@ -1,3 +1,5 @@
+import time
+
 board = [
     [0,0,0,0,0,0,0,0,1],
     [3,1,0,0,0,0,2,0,0],
@@ -84,9 +86,21 @@ def valid_board(board, num, pos):
 
 print()
 print_board(board)
+
+start_time = time.time()
+
 backtrack(board)
 print()
 print('------------------------')
 print()
 print_board(board)
+print()
+
+end_time = time.time()
+
+print('Board Solved !')
+print()
+elapsed_time = end_time - start_time
+
+print("Elapsed time: {:.2f} seconds".format(elapsed_time))
 print()
