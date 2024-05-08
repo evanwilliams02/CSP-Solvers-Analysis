@@ -1,4 +1,4 @@
-import random
+import random, time
 
 # Initialize variables
 shortest_route = []
@@ -172,6 +172,7 @@ def fill_random_variables(graph, packages):
 # a longe time to go from one end of map to the other
 fill_random_variables(graph, packages)
 
+start_time = time.time()
 
 if backtrack('start', list(packages.keys()), ['start'], frontier):
     print()
@@ -180,6 +181,14 @@ if backtrack('start', list(packages.keys()), ['start'], frontier):
     print()
     print('Shortest Route:', shortest_route)
     print('Total Delivery Time:', round(int(shortest_time) / 60, 2), 'hour(s)')
+    print()
 else:
     print('END')
+    print()
+
+end_time = time.time()
+
+elapsed_time = end_time - start_time
+
+print("Elapsed time: {:.2f} seconds".format(elapsed_time))
 print()

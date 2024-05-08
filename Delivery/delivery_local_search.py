@@ -1,4 +1,4 @@
-import random
+import random, time
 
 def fill_random_variables(graph, packages):
 
@@ -182,7 +182,9 @@ temp = generate_neighbors(solution)
 
 neighbors = []
 
+start_time = time.time()
 for n in temp:
+    
     
     try:
         total_distance, delivery_distance = validate_neighbors(graph, n, 0, 0, 0, list(packages.keys()))
@@ -192,8 +194,9 @@ for n in temp:
     if total_distance <= delivery_distance:
         neighbors.append(n)
 
-
+end_time = time.time()
 final_solution, best_fitness, orig_time = local_search(graph, solution, neighbors)
+
 
 print('Shortest Solution:')
 print()
@@ -205,5 +208,11 @@ if orig_time > best_fitness:
     print('Solution Imporved !')
     print()
 else:
+    print()
     print('Solution did not improve :(')
     print()
+
+elapsed_time = end_time - start_time
+
+print("Elapsed time: {:.2f} seconds".format(elapsed_time))
+print()
