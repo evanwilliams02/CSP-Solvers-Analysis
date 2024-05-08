@@ -46,7 +46,7 @@ def backtrack(current_location, remaining_packages, current_route, frontier):
     
     current_time = 1
     count = 0
-    test_count = 0
+    
 
     
     while remaining_packages and current_time > shortest_time:
@@ -142,7 +142,6 @@ def backtrack(current_location, remaining_packages, current_route, frontier):
             break
    
         
-        test_count += 1
         
            
     shortest_time = current_time - 1
@@ -159,13 +158,13 @@ def fill_random_variables(graph, packages):
     for i in graph:
         for j in graph[i]:
             if graph[i][j] == 1:
-                graph[i][j] = random.randint(25, 50)
+                graph[i][j] = random.randint(5, 50)
             
         
     # Fills the delivery times of packages
     for d in packages:
         if packages[d]['delivery_time'] == 1:
-            packages[d]['delivery_time'] = random.randint(30, 55)
+            packages[d]['delivery_time'] = random.randint(25,90)
 
 
 # Takes graph and packages and fills them with randomvariables
