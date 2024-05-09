@@ -152,5 +152,5 @@ def local_search_sudoku():
 
 
 solved_board = local_search_sudoku()
-for row in solved_board:
-    print(row)
+
+print_board(solved_board)
