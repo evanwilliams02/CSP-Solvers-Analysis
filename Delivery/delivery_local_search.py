@@ -178,7 +178,7 @@ def local_search(graph, current_solution, neighbors):
     
     return best_neighbor, best_fitness, orig_time
 
-
+start_time = time.time()
 
 max_iterations = 100
 
@@ -188,7 +188,7 @@ temp = generate_neighbors(solution)
 
 neighbors = []
 
-start_time = time.time()
+
 for n in temp:
     
     
@@ -200,9 +200,9 @@ for n in temp:
     if total_distance <= delivery_distance:
         neighbors.append(n)
 
-end_time = time.time()
-final_solution, best_fitness, orig_time = local_search(graph, solution, neighbors)
 
+final_solution, best_fitness, orig_time = local_search(graph, solution, neighbors)
+end_time = time.time()
 
 print('Shortest Solution:')
 print()

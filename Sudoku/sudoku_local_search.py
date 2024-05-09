@@ -102,7 +102,7 @@ def get_conflicts(board, row, col):
         for col_l  in range(curr_box_x * 3, curr_box_x * 3 + 3):
             
             arr.append(board[row_l][col_l])
-            # print(arr)
+            
             if check_duplicates(arr):
                 count += 1
     
@@ -111,7 +111,7 @@ def get_conflicts(board, row, col):
 def get_best_move(board):
     best_move = None
     min_conflicts = float('inf')
-    # print_board(board)
+    
 
     for row in range(9):
         for col in range(9):
@@ -150,7 +150,7 @@ def local_search_sudoku():
 
     return board
 
-# Main program
+
 solved_board = local_search_sudoku()
 for row in solved_board:
     print(row)

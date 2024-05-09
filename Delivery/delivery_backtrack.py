@@ -84,12 +84,12 @@ def backtrack(current_location, remaining_packages, current_route, frontier):
             # Check if delivery time for next package can be met
             for package_to_deliver in range(0, len(remaining_packages)):
                 print()
-                print('    next_package:                 ',remaining_packages[package_to_deliver])
-                print('    next_package location:        ',packages[remaining_packages[package_to_deliver]]['location'])
-                print('    next_package delivery time:   ',packages[remaining_packages[package_to_deliver]]['delivery_time'])
-                print('    driver can meet:              ', next_location, time_so_far <= packages[remaining_packages[package_to_deliver]]['delivery_time']+ current_time)
-                print('    customer not in frontier      ',next_location not in frontier)
-                print('    on customer:                  ', next_location, packages[remaining_packages[package_to_deliver]]['location'] == next_location)
+                print('    next_package:                  ',remaining_packages[package_to_deliver])
+                print('    next_package location:         ',packages[remaining_packages[package_to_deliver]]['location'])
+                print('    next_package delivery time:    ',packages[remaining_packages[package_to_deliver]]['delivery_time'])
+                print('    driver can meet:               ', next_location, time_so_far <= packages[remaining_packages[package_to_deliver]]['delivery_time']+ current_time)
+                print('    customer not in frontier       ',next_location not in frontier)
+                print('    package going to right dest:   ', next_location, packages[remaining_packages[package_to_deliver]]['location'] == next_location)
 
                 package_belongs = False
 
@@ -109,10 +109,8 @@ def backtrack(current_location, remaining_packages, current_route, frontier):
                     print('            current_time:     ',current_time)
                     break
             print()
-            print('        package_to_deliver + 1   ', package_to_deliver+1)
-            print('        package_belongs          ', package_belongs)
-            print('        len(remaining_packages)  ', len(remaining_packages))
-            print('        full statement bool      ', not package_belongs and (package_to_deliver+1) == len(remaining_packages))
+            print('        package_belongs:          ', package_belongs)
+            print('        len(remaining_packages):  ', len(remaining_packages))
             print()
 
             if not package_belongs and (package_to_deliver + 1) == len(remaining_packages):
@@ -138,7 +136,7 @@ def backtrack(current_location, remaining_packages, current_route, frontier):
         if len(current_route) == 30:
             print()
             broken = True
-            print('**** SEARCHED FAILED ****')
+            print('**** NO SOLUTION AVAILABLE ****')
             break
    
         
@@ -183,7 +181,7 @@ if backtrack('start', list(packages.keys()), ['start'], frontier):
     print('Total Delivery Time:', round(int(shortest_time) / 60, 2), 'hour(s)')
     print()
 else:
-    print('END')
+    print(' ### Run program again')
     print()
 
 end_time = time.time()
